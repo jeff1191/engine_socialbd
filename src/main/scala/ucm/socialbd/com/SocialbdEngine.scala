@@ -5,6 +5,6 @@ package ucm.socialbd.com
   */
 object SocialbdEngine {
   def main(args: Array[String]): Unit = {
-    println("Hola scala project")
+    println("Initial commit develop")
   }
 }
