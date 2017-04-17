@@ -8,7 +8,8 @@ import com.typesafe.config.ConfigFactory
 case class TwitterConf(twitterTopicIn: String, twitterTopicOut:String,elasticIndex:String,elasticType:String)
 case class TrafficConf(trafficTopicIn:String, trafficTopicOut: String,elasticIndex:String,elasticType:String)
 case class QualityAirConf(qualityAirTopicIn:String, qualityAirTopicOut:String,elasticIndex:String,elasticType:String)
-class SocialBDProperties {
+@SerialVersionUID(100L)
+class SocialBDProperties extends Serializable{
   //checks about if exist components in application.conf
   ConfigFactory.load().checkValid(ConfigFactory.defaultReference(), "twitter")
   ConfigFactory.load().checkValid(ConfigFactory.defaultReference(), "traffic")
