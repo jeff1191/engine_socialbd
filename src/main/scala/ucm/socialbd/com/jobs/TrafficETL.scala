@@ -2,8 +2,8 @@ package ucm.socialbd.com.jobs
 
 import java.net.{InetAddress, InetSocketAddress}
 
-import org.apache.flink.streaming.api.datastream.DataStream
-import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment
+import org.apache.flink.api.scala._
+import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment}
 import org.apache.flink.streaming.connectors.elasticsearch5.ElasticsearchSink
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer010
 import org.apache.flink.streaming.util.serialization.SimpleStringSchema
