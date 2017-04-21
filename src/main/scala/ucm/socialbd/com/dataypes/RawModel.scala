@@ -9,7 +9,7 @@ object RawModel {
                  tecnica: String,
                  horario: String,
                  fecha: String,
-                 lista: List[GroupHour])
+                 listaHoras: List[GroupHour]) extends RawObj
   case class GroupHour(hora:String, valor:String, isValid:String)
 
   case class Traffic( descripcion: String,
@@ -21,8 +21,8 @@ object RawModel {
                       ocupacion: Double,
                       subarea: Double,
                       error: String,
-                      carga: Double) extends RawObject
-  case class Twitter ()  extends RawObject
+                      carga: Double) extends RawObj
+  case class Twitter ()  extends RawObj
 
 
 }
