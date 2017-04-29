@@ -10,8 +10,9 @@ import org.apache.flink.streaming.util.serialization.SimpleStringSchema
 import ucm.socialbd.com.config.SocialBDProperties
 import ucm.socialbd.com.dataypes.EnrichmentObj
 import ucm.socialbd.com.dataypes.RawModel.Traffic
-import ucm.socialbd.com.factory.{Constants, DataTypeFactory}
+import ucm.socialbd.com.factory.{ DataTypeFactory, Instructions}
 import ucm.socialbd.com.sinks.SimpleElasticsearchSink
+import ucm.socialbd.com.sources.KafkaFactoryConsumer
 import ucm.socialbd.com.utils.SocialBDConfig
 
 /**
@@ -21,15 +22,9 @@ class TrafficETL(socialBDProperties: SocialBDProperties) extends ETL{
 
   override def process(): Unit = {
   val env = StreamExecutionEnvironment.getExecutionEnvironment
-  val properties = SocialBDConfig.getProperties(socialBDProperties)
-  // Consumer group ID
-  //properties.setProperty("auto.offset.reset", "earliest");
 
-  val streamTrafficKafka: DataStream[String]= env.addSource(new FlinkKafkaConsumer010[String](
-    socialBDProperties.trafficConf.trafficTopicIn, new SimpleStringSchema(), properties))
-    val trafficDataStream: DataStream[Traffic] = streamTrafficKafka.map(x => DataTypeFactory.getRawObject(x,Constants.CREATE_RAW_TRAFFIC).asInstanceOf[Traffic])
-
-    trafficDataStream.print
+  val trafficDataStream: DataStream[Traffic] = KafkaFactoryConsumer.getRawStream(env,socialBDProperties,Instructions.GET_RAW_TRAFFIC).asInstanceOf[DataStream[Traffic]]
+ trafficDataStream.print
 
   // execute the transformation pipeline
   env.execute("Traffic Job SocialBigData-CM")
