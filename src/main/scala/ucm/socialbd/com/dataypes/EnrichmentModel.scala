@@ -5,8 +5,27 @@ package ucm.socialbd.com.dataypes
   */
 object EnrichmentModel {
   case class ETweet() extends EnrichmentObj
-  case class EAir(estacion: String,codigoEst: String, Xcoord: String, Ycoord: String, fechaHora: String,
-                  magnitudNombre: String,magnitudCod: String, tecnicaNom: String,
-                  tecnicaCod: String,valor: String, nivelIntensidadTrafico: String) extends EnrichmentObj
-  case class ETraffic()extends EnrichmentObj
+  case class EAir(estacion: String,
+                  codigoEst: String,
+                  Xcoord: String,
+                  Ycoord: String,
+                  fechaHora: String,
+                  magnitudNombre: String,
+                  magnitudCod: String,
+                  tecnicaNom: String,
+                  tecnicaCod: String,
+                  valor: String, nivelIntensidadTrafico: String) extends EnrichmentObj
+
+  case class ETraffic(idelem : String,
+                      identif : Double,
+                      fechaHora: String,
+                      tipo_elem : String,
+                      tipo : String,
+                      intensidad : String,
+                      carga : String,
+                      vmed : String,
+                      error : String,
+                      periodo_integracion : String,
+                      Xcoord : String,
+                      Ycoord : String)extends EnrichmentObj
 }

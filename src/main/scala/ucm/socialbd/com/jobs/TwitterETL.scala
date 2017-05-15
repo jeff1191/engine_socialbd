@@ -30,7 +30,6 @@ class TwitterETL(socialBDProperties: SocialBDProperties) extends ETL{
     env.execute("Twitter Job SocialBigData-CM")
 }
   override def sendToElastic(enrDataStream: DataStream[EnrichmentObj]): Unit = {
-
     val transports = new java.util.ArrayList[InetSocketAddress]
     transports.add(new InetSocketAddress(InetAddress.getByName(socialBDProperties.elasticUrl), 9300))
 

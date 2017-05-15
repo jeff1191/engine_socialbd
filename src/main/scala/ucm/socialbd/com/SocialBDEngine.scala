@@ -1,13 +1,13 @@
 package ucm.socialbd.com
 
 import ucm.socialbd.com.config.SocialBDProperties
-import ucm.socialbd.com.jobs.{AirETL, TrafficETL, TwitterETL}
+import ucm.socialbd.com.jobs._
 
 /**
   * Created by Jeff on 15/04/2017.
   */
 object SocialBDEngine {
-  val etlNames = Set("AIR", "TRAFFIC", "TWITTER")
+  val etlNames = Set("AIR", "TRAFFIC", "TWITTER", "BICIMAD", "EMTBUSES")
 
   def printUsage(exit: Boolean = false): Unit = {
     println ("Arguments:<etl name>")
@@ -25,6 +25,8 @@ object SocialBDEngine {
       case "AIR" => new AirETL(new SocialBDProperties())
       case "TRAFFIC" => new TrafficETL(new SocialBDProperties())
       case "TWITTER" => new TwitterETL(new SocialBDProperties())
+      case "BICIMAD" => new BiciMadETL(new SocialBDProperties())
+      case "EMTBUSES" => new EMTBusETL(new SocialBDProperties())
       case _ => {
         println (s"Unrecognized etl type ${args(0)}")
         printUsage(exit = false)

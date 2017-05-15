@@ -25,13 +25,30 @@ object KafkaFactoryConsumer {
 
         streamAirKafka.map(x => DataTypeFactory.getRawObject(x,Instructions.CREATE_RAW_AIR))
 
-      case Instructions.GET_RAW_TRAFFIC =>
-        val streamTrafficKafka: DataStream[String]= env.addSource(new FlinkKafkaConsumer010[String](
-          socialBDProperties.trafficConf.trafficTopicIn, new SimpleStringSchema(), properties))
+      case Instructions.GET_RAW_URBAN_TRAFFIC =>
+        val streamUrbanTrafficKafka: DataStream[String]= env.addSource(new FlinkKafkaConsumer010[String](
+          socialBDProperties.trafficConf.urbanTrafficTopicIn, new SimpleStringSchema(), properties))
 
-        streamTrafficKafka.map(x => DataTypeFactory.getRawObject(x,Instructions.CREATE_RAW_TRAFFIC))
+        streamUrbanTrafficKafka.map(x => DataTypeFactory.getRawObject(x,Instructions.CREATE_RAW_URBAN_TRAFFIC))
+
+      case Instructions.GET_RAW_INTERURBAN_TRAFFIC =>
+        val streamInterUrbanTrafficKafka: DataStream[String]= env.addSource(new FlinkKafkaConsumer010[String](
+          socialBDProperties.trafficConf.interUrbanTrafficTopicIn, new SimpleStringSchema(), properties))
+
+        streamInterUrbanTrafficKafka.map(x => DataTypeFactory.getRawObject(x,Instructions.CREATE_RAW_INTERURBAN_TRAFFIC))
 
       case Instructions.GET_RAW_TWITTER => null
+
+      case Instructions.GET_RAW_BICIMAD =>
+        val streamBiciKafka: DataStream[String]= env.addSource(new FlinkKafkaConsumer010[String](
+        socialBDProperties.biciMADConf.bicimadTopicIn, new SimpleStringSchema(), properties))
+
+        streamBiciKafka.map(x => DataTypeFactory.getRawObject(x,Instructions.CREATE_RAW_BICIMAD))
+      case Instructions.GET_RAW_EMTBUS =>
+        val streamTEmtBusKafka: DataStream[String]= env.addSource(new FlinkKafkaConsumer010[String](
+          socialBDProperties.eMTBusConf.emtbusTopicIn, new SimpleStringSchema(), properties))
+
+        streamTEmtBusKafka.map(x => DataTypeFactory.getRawObject(x,Instructions.CREATE_RAW_EMTBUS))
 
       case _ =>  throw new Exception(s"Unknown kafka source ${ins}")
     }
