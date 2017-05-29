@@ -1,5 +1,7 @@
 package ucm.socialbd.com.utils
 
+import java.net.{InetAddress, InetSocketAddress}
+import java.util
 import java.util.Properties
 
 import ucm.socialbd.com.config.SocialBDProperties
@@ -9,7 +11,7 @@ import ucm.socialbd.com.config.SocialBDProperties
   */
 object SocialBDConfig {
 
-  def getProperties(socialBDProperties: SocialBDProperties): Properties  = {
+  def getKafkaProperties(socialBDProperties: SocialBDProperties): Properties  = {
     val properties = new Properties()
     // comma separated list of Kafka brokers
     properties.setProperty("bootstrap.servers", socialBDProperties.kafkaBrokersUrls)
@@ -22,4 +24,13 @@ object SocialBDConfig {
     properties.put("value-class-type", "java.lang.String")
     properties
   }
+
+  def getElasticConfiguration(socialBDProperties: SocialBDProperties): util.HashMap[String, String] = {
+    val config = new java.util.HashMap[String, String]
+    config.put("bulk.flush.max.actions", "1")
+    config.put("cluster.name", socialBDProperties.elasticClusterName)
+    config.put("node.name", socialBDProperties.elasticNodeName)
+    config
+  }
+
 }

@@ -17,4 +17,10 @@ object EnrichmentFileModel extends EnrichmentFileObj{
                                 Xcoord: String,
                                 Ycoord: String) extends EnrichmentFileObj
 
+
+  case class AirTrafficFile(estacion: String, distancia: Distancia)extends EnrichmentFileObj
+  case class Distancia( sum100: List[String], //This case class have the distance between traffic station and air station, it must be sum its intensity(traffic)
+                        sum1000: List[String],
+                        sum250: List[String],
+                        sum500: List[String])
 }

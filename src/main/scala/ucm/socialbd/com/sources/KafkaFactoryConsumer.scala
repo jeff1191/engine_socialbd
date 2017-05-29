@@ -8,6 +8,8 @@ import ucm.socialbd.com.factory.{DataTypeFactory, Instructions}
 import ucm.socialbd.com.utils.SocialBDConfig
 import org.apache.flink.api.scala._
 import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment}
+import twitter4j.TwitterObjectFactory
+import ucm.socialbd.com.dataypes.RawModel.{Twitter, TwitterUser}
 /**
   * Created by Jeff on 15/04/2017.
   */
@@ -16,7 +18,7 @@ object KafkaFactoryConsumer {
 
   def getRawStream(env:StreamExecutionEnvironment, socialBDProperties: SocialBDProperties,ins: String): DataStream[RawObj] = {
     //common properties
-    val properties = SocialBDConfig.getProperties(socialBDProperties)
+    val properties = SocialBDConfig.getKafkaProperties(socialBDProperties)
     ins match {
       case Instructions.GET_RAW_AIR =>
         //properties.setProperty("auto.offset.reset", "earliest")
@@ -37,8 +39,11 @@ object KafkaFactoryConsumer {
 
         streamInterUrbanTrafficKafka.map(x => DataTypeFactory.getRawObject(x,Instructions.CREATE_RAW_INTERURBAN_TRAFFIC))
 
-      case Instructions.GET_RAW_TWITTER => null
+      case Instructions.GET_RAW_TWITTER =>
+        val streamTwitterKafka: DataStream[String]= env.addSource(new FlinkKafkaConsumer010[String](
+        socialBDProperties.twitterConf.twitterTopicIn, new SimpleStringSchema(), properties))
 
+        streamTwitterKafka.map(tweetjson => DataTypeFactory.getRawObject(tweetjson,Instructions.CREATE_RAW_TWITTER))
       case Instructions.GET_RAW_BICIMAD =>
         val streamBiciKafka: DataStream[String]= env.addSource(new FlinkKafkaConsumer010[String](
         socialBDProperties.biciMADConf.bicimadTopicIn, new SimpleStringSchema(), properties))

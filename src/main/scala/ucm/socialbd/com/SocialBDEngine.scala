@@ -1,17 +1,19 @@
 package ucm.socialbd.com
 
+import org.apache.flink.streaming.api.scala.DataStream
 import ucm.socialbd.com.config.SocialBDProperties
-import ucm.socialbd.com.jobs._
+import ucm.socialbd.com.process._
+import ucm.socialbd.com.sinks.WriterSinkStream
 
 /**
   * Created by Jeff on 15/04/2017.
   */
 object SocialBDEngine {
-  val etlNames = Set("AIR", "TRAFFIC", "TWITTER", "BICIMAD", "EMTBUSES")
+  val streamNames = Set("AIR", "TRAFFIC", "TWITTER", "BICIMAD", "EMTBUS")
 
   def printUsage(exit: Boolean = false): Unit = {
-    println ("Arguments:<etl name>")
-    println ("etl name must be one of: [" + etlNames.mkString(", ") +"]")
+    println ("Arguments:<stream type>")
+    println ("stream type must be one of: [" + streamNames.mkString(", ") +"]")
     if (exit)
       sys.exit(1)
   }
@@ -21,18 +23,18 @@ object SocialBDEngine {
     println("-------------------------")
     if (args.length !=  1 ) printUsage(exit = true)
 
-    val etl = args(0).trim.toUpperCase match {
-      case "AIR" => new AirETL(new SocialBDProperties())
-      case "TRAFFIC" => new TrafficETL(new SocialBDProperties())
-      case "TWITTER" => new TwitterETL(new SocialBDProperties())
-      case "BICIMAD" => new BiciMadETL(new SocialBDProperties())
-      case "EMTBUSES" => new EMTBusETL(new SocialBDProperties())
-      case _ => {
-        println (s"Unrecognized etl type ${args(0)}")
-        printUsage(exit = false)
-        sys.exit(1)
-      }
-    }
-    etl.process()
+//    val streamTransformation = args(0).trim.toUpperCase match {
+//      case "AIR" => new AirStream(new SocialBDProperties())
+//      case "TRAFFIC" => new TrafficStream(new SocialBDProperties())
+//      case "TWITTER" => new TwitterStream(new SocialBDProperties())
+//      case "BICIMAD" => new BiciMadStream(new SocialBDProperties())
+//      case "EMTBUS" => new EMTBusStream(new SocialBDProperties())
+//      case _ => {
+//        println (s"Unrecognized stream type ${args(0)}")
+//        printUsage(exit = false)
+//        sys.exit(1)
+//      }
+//    }
+//    streamTransformation.process
   }
 }

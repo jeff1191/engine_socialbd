@@ -33,7 +33,20 @@ object RawModel {
                                 carga: String,
                                timestamp:String) extends RawObj
 
-  case class Twitter ()  extends RawObj
+  case class Twitter (var id_str:String,
+                      var createdAt:String,
+                      var Xcoord:String,
+                      var Ycoord:String,
+                      var place:String,
+                      var text:String,
+                      var user:TwitterUser,
+                      var retweeted:String )  extends RawObj
+  case class TwitterUser(var id_str:String,
+                         var followers_count:String,
+                         var friends_count:String,
+                         var lang:String,
+                         var location:String,
+                         var screenName:String)
 
   case class BiciMAD(address: String,
                      latitude: String,
@@ -50,14 +63,24 @@ object RawModel {
                      longitude: String,
                      timestamp: String) extends RawObj
 
-  case class EMTBus(  Line: String,
-                      OrderDetail: String,
-                      Node: String,
-                      DistStopPrev: String,
-                      PosxNode: String,
-                      PosyNode: String,
-                      SecDetail: String,
-                      Distance: String,
-                      Name: String,
-                      timestamp: String) extends RawObj
+  case class EMTBus(  idStop: String,
+                    DescriptionStop: String,
+                    Direction: String,
+                    StopLine: List[StopLine],
+                    ArriveEstimation: List[ArriveEstimation],
+                    timestamp: String) extends RawObj
+  case class StopLine(
+                        Label: String,
+                        Description: String
+                      )
+  case class ArriveEstimation(IdStop: String,
+                    idLine: String,
+                    IsHead: String,
+                    Destination: String,
+                    IdBus: String,
+                    TimeLeftBus: String,
+                    DistanceBus: String,
+                    PositionXBus: String,
+                    PositionYBus: String,
+                    PositionTypeBus: String)
 }
