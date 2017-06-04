@@ -35,7 +35,7 @@ class WriterSinkStream(socialBDProperties: SocialBDProperties, stream: DataStrea
   }
 
   def writeDataStreamToFile(path:String): Unit ={
-    stream.writeAsText(path + new SimpleDateFormat("yyyyMMdd_HH:mm").format(new Date()))
-      .setParallelism(1)
+    stream.writeAsText(path+ "/enrichment/" +
+      new SimpleDateFormat("yyyyMMdd_HHmmSSS").format(new Date())).setParallelism(1)
   }
 }

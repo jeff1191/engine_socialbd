@@ -23,7 +23,9 @@ object Instructions {
   val CREATE_ENRICHMENT_FILE_AIR_TRAFFIC:String = "createFileTrafficAir"
 
   val GET_JSON_AIR: String = "getJsonAir"
-  val GET_JSON_TRAFFIC: String = "getJsonUrbanTraffic"
+  val GET_JSON_TRAFFIC: String = "getJsonTraffic"
+  val GET_JSON_URBANTRAFFIC: String = "getJsonUrbanTraffic"
+  val GET_JSON_INTERURBANTRAFFIC: String = "getJsonInterUrbanTraffic"
   val GET_JSON_TWITTER: String = "getJsonTwitter"
   val GET_JSON_BICIMAD: String = "getJsonBiciMAD"
   val GET_JSON_EMTBUS: String = "getJsonEMTBus"

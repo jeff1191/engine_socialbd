@@ -13,7 +13,9 @@ object EnrichmentModel {
                   magnitudCod: String,
                   tecnicaNom: String,
                   tecnicaCod: String,
-                  valor: String, nivelIntensidadTrafico: String) extends EnrichmentObj
+                  valor: String, nivelIntensidadTrafico: List[TrafficIntensity]) extends EnrichmentObj
+  case class TrafficIntensity(distancia:String, intensidad:Double) //<- distancia means if this intensity is 100m,250m,500m,1000m
+                                                                    //intensidad represents the sum of traffic stations near air station
 
   case class ETraffic(idelem : String,
                       identif : String,
@@ -28,4 +30,5 @@ object EnrichmentModel {
                       Ycoord : String)extends EnrichmentObj
 
   case class ETweet() extends EnrichmentObj
+
 }

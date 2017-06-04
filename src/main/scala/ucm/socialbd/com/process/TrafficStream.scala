@@ -1,6 +1,8 @@
 package ucm.socialbd.com.process
 
 import java.net.{InetAddress, InetSocketAddress}
+import java.text.SimpleDateFormat
+import java.util.Date
 
 import net.liftweb.json.Extraction
 import org.apache.flink.api.scala._
@@ -60,6 +62,15 @@ class TrafficStream(socialBDProperties: SocialBDProperties) extends StreamTransf
   }
     val jsonString = enrichmentInterUrbanDataStream.union(enrichmentUrbanDataStream)
                   .map(enrObj => DataTypeFactory.getJsonString(enrObj, Instructions.GET_JSON_TRAFFIC).toString)
+
+    val jsonRawDataUrbanStream  = urbanTrafficDataStream
+      .map(enrObj => DataTypeFactory.getJsonString(enrObj, Instructions.GET_JSON_URBANTRAFFIC).toString)
+      .writeAsText(socialBDProperties.trafficConf.outputDir+ "/raw/urban/" + new SimpleDateFormat("yyyyMMdd_HHmmSSS").format(new Date()))
+      .setParallelism(1)
+    val jsonRawDataInterUrbanStream  = interUrbanTrafficDataStream
+      .map(enrObj => DataTypeFactory.getJsonString(enrObj, Instructions.GET_JSON_INTERURBANTRAFFIC).toString)
+      .writeAsText(socialBDProperties.trafficConf.outputDir+ "/raw/interUrban/" + new SimpleDateFormat("yyyyMMdd_HHmmSSS").format(new Date()))
+      .setParallelism(1)
 
     writeDataStreamToSinks(jsonString)
   // execute the transformation pipeline

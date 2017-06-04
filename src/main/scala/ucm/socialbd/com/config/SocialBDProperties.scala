@@ -6,10 +6,15 @@ import com.typesafe.config.ConfigFactory
   */
 
 case class TwitterConf(twitterTopicIn: String, twitterTopicOut:String,elasticIndex:String,elasticType:String, outputDir:String)
+
 case class TrafficConf(urbanTrafficTopicIn:String, interUrbanTrafficTopicIn:String, trafficTopicOut: String,elasticIndex:String,elasticType:String, outputDir:String)
+
 case class QualityAirConf(qualityAirTopicIn:String, qualityAirTopicOut:String,elasticIndex:String,elasticType:String, outputDir:String)
+
 case class BiciMADConf(bicimadTopicIn:String, bicimadTopicOut:String,elasticIndex:String,elasticType:String, outputDir:String)
+
 case class EMTBusConf(emtbusTopicIn:String, emtbusTopicOut:String,elasticIndex:String,elasticType:String, outputDir:String)
+
 @SerialVersionUID(100L)
 class SocialBDProperties extends Serializable{
   //checks about if exist components in application.conf
