@@ -71,8 +71,6 @@ class AirStream(socialBDProperties: SocialBDProperties) extends StreamTransform 
         (estacion,elem) //we need group for station but without lost it in the keyBy()
     }
 
-//    val dataStreamAirTrafficDef2 = dataStreamMeanTraffic.keyBy(_._1).reduce((x,y) => (x._1,(x._2._1, x._2._2 + y._2._2)))
-
     val dataStreamAirTrafficDef = dataStreamMeanTraffic.filter(_._1 != "-1").keyBy(_._1).timeWindow(Time.minutes(5), Time.seconds(1)).
       apply((key, window, input, out: Collector[(String, Double)]) => {
         val sum = input.map(x => x._2._2).sum
@@ -81,7 +79,7 @@ class AirStream(socialBDProperties: SocialBDProperties) extends StreamTransform 
 
     //    Enrichment final datastream
     val enrichmentAir = airDataStream.keyBy(_.estacion).join(dataStreamAirTrafficDef).where(_.estacion).equalTo(_._1)
-          .window(TumblingProcessingTimeWindows.of(Time.minutes(5)))
+          .window(TumblingProcessingTimeWindows.of(Time.seconds(5)))
           .apply { //!!There are contaminantes unknowns¡¡
             (leftObj, rightObj) =>
 
@@ -107,8 +105,8 @@ class AirStream(socialBDProperties: SocialBDProperties) extends StreamTransform 
 
     val jsonEnrDataStream  = enrichmentAir
       .map(enrObj => DataTypeFactory.getJsonString(enrObj, Instructions.GET_JSON_AIR).toString)
-    val jsonRawDataStream  = airDataStream
-        .map(enrObj => DataTypeFactory.getJsonString(enrObj, Instructions.GET_JSON_AIR).toString)
+
+    airDataStream.map(enrObj => DataTypeFactory.getJsonString(enrObj, Instructions.GET_JSON_AIR).toString)
         .writeAsText(socialBDProperties.qualityAirConf.outputDir+ "/raw/" + new SimpleDateFormat("yyyyMMdd_HHmmSSS").format(new Date()))
         .setParallelism(1)
     writeDataStreamToSinks(jsonEnrDataStream)
