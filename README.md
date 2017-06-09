@@ -1,6 +1,6 @@
-##Social Big Data-CM
+## Social Big Data-CM
 
-###Engine_socialbd
+### Engine_socialbd
 
 This is a project master degree about the analysis of social change from Big Data.
 
@@ -17,6 +17,6 @@ Full documentation is available in docs/Memoria_JeffersonAlmacheMontoya.pdf (Spa
     
 General scheme about Big Data architecture is the following:
 
-![Alt text](https://github.com/jeff1191/engine_socialbd/images/architecture.jpg?raw=true "socialbd-architecture")
+![Alt text](https://github.com/jeff1191/engine_socialbd/blob/develop/images/architecture.jpg?raw=true "socialbd-architecture")
 
    
